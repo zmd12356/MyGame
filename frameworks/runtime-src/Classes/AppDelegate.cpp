@@ -27,7 +27,7 @@
 #include "cocos2d.h"
 #include "scripting/lua-bindings/manual/lua_module_register.h"
 
-// #define USE_AUDIO_ENGINE 1
+ #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
 
 #if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
@@ -84,7 +84,7 @@ static int register_all_packages()
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // set default FPS
-    Director::getInstance()->setAnimationInterval(1.0 / 60.0f);
+    Director::getInstance()->setAnimationInterval(1.f / 60.f);
 
     // register lua module
     auto engine = LuaEngine::getInstance();

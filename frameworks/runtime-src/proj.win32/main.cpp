@@ -23,8 +23,13 @@
  ****************************************************************************/
 
 #include "main.h"
-#include "SimulatorWin.h"
-#include <shellapi.h>
+#include "AppDelegate.h"
+#include <cocos2d.h>
+
+USING_NS_CC;
+
+// uncomment below line, open debug console
+#define USE_WIN32_CONSOLE
 
 int WINAPI _tWinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
@@ -33,6 +38,22 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
-    auto simulator = SimulatorWin::getInstance();
-    return simulator->run();
+
+#ifdef USE_WIN32_CONSOLE
+	AllocConsole();
+	freopen("CONIN$", "r", stdin);
+	freopen("CONOUT$", "w", stdout);
+	freopen("CONOUT$", "w", stderr);
+#endif
+
+	// create the application instance
+	AppDelegate app;
+
+	int ret = Application::getInstance()->run();
+
+#ifdef USE_WIN32_CONSOLE
+	FreeConsole();
+#endif
+
+	return ret;
 }
