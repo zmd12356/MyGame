@@ -151,8 +151,7 @@ xcopy /Y "$(EngineRoot)external\win32-specific\OggDecoder\prebuilt\libvorbisfile
 xcopy /Y "$(EngineRoot)external\win32-specific\OpenalSoft\prebuilt\OpenAL32.dll" "$(OutDir)"
 xcopy /Y "$(EngineRoot)external\win32-specific\gles\prebuilt\glew32.dll" "$(OutDir)"
 xcopy /Y "$(EngineRoot)external\lua\luajit\prebuilt\win32\lua51.dll" "$(OutDir)"
-
-xcopy /D /E /I /Q /Y "$(ProjectDir)..\Resources" "$(OutDir)Resources"</Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
