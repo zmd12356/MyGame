@@ -52,7 +52,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\runtime\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
@@ -90,11 +90,11 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);$(ProjectDir)\libs;%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libcocos2d.lib;libluacocos2d.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
-      <ProgramDatabaseFile>$(ProjectDir)../../../simulator/win32/$(TargetName).pdb</ProgramDatabaseFile>
-      <OutputFile>$(ProjectDir)../../../simulator/win32/$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
     </Link>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -118,22 +118,51 @@
       </Command>
     </PreBuildEvent>
     <PreLinkEvent>
-      <Command>
-      </Command>
+      <Command>if not exist "$(ProjectDir)libs" mkdir "$(ProjectDir)libs"
+
+xcopy /Y "$(EngineRoot)build\Debug.win32\*cocos2d.lib" "$(ProjectDir)libs"
+
+xcopy /Y "$(EngineRoot)external\webp\prebuilt\win32\libwebp.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\win32-specific\icon\prebuilt\libiconv.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\freetype2\prebuilt\win32\freetype.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\png\prebuilt\win32\libpng.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\jpeg\prebuilt\win32\libjpeg.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\tiff\prebuilt\win32\libtiff.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\win32-specific\zlib\prebuilt\libzlib.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\glfw3\prebuilt\win32\glfw3.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\win32-specific\gles\prebuilt\glew32.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\lua\luajit\prebuilt\win32\lua51.lib" "$(ProjectDir)libs"
+
+xcopy /Y "$(EngineRoot)external\chipmunk\prebuilt\win32\release-lib\libchipmunk.lib" "$(ProjectDir)libs"
+xcopy /Y "$(EngineRoot)external\Box2D\prebuilt\win32\release\libbox2d.lib" "$(ProjectDir)libs"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /Y "$(EngineRoot)build\Debug.win32\*cocos2d.dll" "$(OutDir)"
+
+xcopy /Y "$(EngineRoot)external\curl\prebuilt\win32\libcurl.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\openssl\prebuilt\win32\libssl-1_1.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\openssl\prebuilt\win32\libcrypto-1_1.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\websockets\prebuilt\win32\websockets.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\uv\prebuilt\win32\uv.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\win32-specific\MP3Decoder\prebuilt\libmpg123.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\win32-specific\OggDecoder\prebuilt\libogg.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\win32-specific\OggDecoder\prebuilt\libvorbis.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\win32-specific\OggDecoder\prebuilt\libvorbisfile.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\win32-specific\OpenalSoft\prebuilt\OpenAL32.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\win32-specific\gles\prebuilt\glew32.dll" "$(OutDir)"
+xcopy /Y "$(EngineRoot)external\lua\luajit\prebuilt\win32\lua51.dll" "$(OutDir)"
+
+xcopy /D /E /I /Q /Y "$(ProjectDir)..\Resources" "$(OutDir)Resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <CustomBuildStep>
-      <Command>if not exist "$(LocalDebuggerWorkingDirectory)" mkdir "$(LocalDebuggerWorkingDirectory)"
-xcopy /Y /Q "$(OutDir)*.dll" "$(LocalDebuggerWorkingDirectory)"
-xcopy "$(ProjectDir)..\..\..\res" "$(LocalDebuggerWorkingDirectory)\Resources\res\" /D /E /I /F /Y
-xcopy "$(ProjectDir)..\..\..\src" "$(LocalDebuggerWorkingDirectory)\Resources\src\" /D /E /I /F /Y</Command>
-      <Outputs>$(TargetName).cab</Outputs>
-      <Inputs>$(TargetFileName)</Inputs>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
+      <Inputs>
+      </Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

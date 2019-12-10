@@ -183,3 +183,7 @@ temp/
 # external libs zip
 *.zip
 **/simulator/
+
+/runtime/*.*
+/frameworks/runtime-src/proj.win32/libs/
+
